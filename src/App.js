@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Header from "./Components/Header";
+import InputSection from "./Components/InputSection";
+import Results from "./Components/Results";
+import { useState } from "react";
 function App() {
+  const [inputData,setInputData]=useState({
+    initialInvestment:10000,
+    annualInvestment:1200,
+    expectedReturn:6,
+    duration:10
+});
+const inputValidation=inputData.duration >=1
+function handleInput(name,value)
+{
+    setInputData((prev)=>{
+        return {...prev,[name]:+value}
+    })
+
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+        <Header />
+        <InputSection inputData={inputData} onChangeInput={handleInput}/>
+        
+        {inputValidation ? <Results inputData={inputData}/> : <p className="center">Duration must greater than 0</p>}
+      </>
   );
 }
 
